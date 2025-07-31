@@ -1,0 +1,84 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Papa",
+      "description": "Papa criolla",
+      "defaultUnitId": 0,
+      "imageUrl": "papaCriolla.png",
+      "averagePrice": 1500
+    },
+    {
+      "id": 2,
+      "name": "Carne molida",
+      "description": "Carne molida de res",
+      "defaultUnitId": 0,
+      "imageUrl": "carneMolida.png",
+      "averagePrice": 20000
+    },
+    {
+      "id": 3,
+      "name": "Arroz",
+      "description": "Arroz de grano largo",
+      "defaultUnitId": 0,
+      "imageUrl": "arroz.png",
+      "averagePrice": 3000
+    },
+    {
+      "id": 4,
+      "name": "Frijoles",
+      "description": "Frijoles rojos",
+      "defaultUnitId": 0,
+      "imageUrl": "frijoles.png",
+      "averagePrice": 2500
+    },
+    {
+      "id": 5,
+      "name": "Lentejas",
+      "description": "Lentejas verdes",
+      "defaultUnitId": 0,
+      "imageUrl": "lentejas.png",
+      "averagePrice": 3500
+    },
+    {
+      "id": 6,
+      "name": "Aceite",
+      "description": "Aceite de girasol",
+      "defaultUnitId": 0,
+      "imageUrl": "aceite.png",
+      "averagePrice": 4500
+    },
+    {
+      "id": 7,
+      "name": "Sal",
+      "description": "Sal marina",
+      "defaultUnitId": 0,
+      "imageUrl": "sal.png",
+      "averagePrice": 1000
+    },
+    {
+      "id": 8,
+      "name": "Azúcar",
+      "description": "Azúcar moreno",
+      "defaultUnitId": 0,
+      "imageUrl": "azucar.png",
+      "averagePrice": 2000
+    },
+    {
+      "id": 9,
+      "name": "Harina de trigo",
+      "description": "Harina de trigo integral",
+      "defaultUnitId": 0,
+      "imageUrl": "harinaTrigo.png",
+      "averagePrice": 1800
+    },
+    {
+      "id": 10,
+      "name": "Leche",
+      "description": "Leche entera",
+      "defaultUnitId": 0,
+      "imageUrl": "leche.png",
+      "averagePrice": 2500
+    }
+  ]
+}

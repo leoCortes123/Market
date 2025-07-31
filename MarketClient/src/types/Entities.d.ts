@@ -17,3 +17,22 @@ export interface AuthState {
   accessToken: string | null;
   user: User | null;
 }
+
+export interface Product {
+  id: number;
+  name: string;
+  description?: string;
+  defaultUnitId: number;
+  imageUrl?: string;
+  averagePrice?: number;
+}
+
+
+export interface Combo {
+  id: number;
+  name: string;
+  description?: string;
+  price: number;
+  imageUrl?: string;
+}
+

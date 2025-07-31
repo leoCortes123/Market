@@ -1,8 +1,7 @@
 import App from "@/App";
-import Home from "@/pages/Home";
-import LoginPage from "@/pages/LoginPage";
-import Products from "@/pages/Products";
-import Register from "@/pages/Register";
+import LoginPage from "@/features/auth/LoginPage";
+import HomePage from "@/features/home/HomePage";
+import ProductPage from "@/features/product/ProductsPage";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -10,11 +9,10 @@ const router = createBrowserRouter([
     path: '/',
     Component: App,
     children: [
-      { index: true, Component: Home },
-      { path: 'home', Component: Home },
+      { index: true, Component: HomePage },
+      { path: 'home', Component: HomePage },
       { path: 'login', Component: LoginPage },
-      { path: 'register', Component: Register },
-      { path: 'products', Component: Products }
+      { path: 'products', Component: ProductPage }
     ],
   },
 ]);

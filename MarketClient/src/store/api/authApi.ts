@@ -20,8 +20,6 @@ export const authApi = baseApi.injectEndpoints({
       }),
       extraOptions: { maxRetries: 0 },
     }),
-
-
   }),
   overrideExisting: false, // para evitar colisiones si reinyectas
 });
