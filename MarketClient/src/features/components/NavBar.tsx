@@ -8,8 +8,10 @@ import {
   Text,
 } from '@chakra-ui/react';
 import type { ComponentProps } from 'react';
-import { FaStoreAlt } from 'react-icons/fa';
+import { FaHome, FaStoreAlt } from 'react-icons/fa';
+import { FaCalendarDays } from 'react-icons/fa6';
 import { FiLogIn } from 'react-icons/fi';
+import { MdOutlineBusiness } from 'react-icons/md';
 
 type CustomNavLinkProps = {
   to: string;
@@ -56,8 +58,8 @@ export default function Navbar() {
       right="0"
       zIndex="1000"
       boxShadow="sm"
-      width="100vw"
-      height="7vh"
+      width="full"
+      height="10vh"
     >
       <Box>
         <ChakraLink
@@ -66,15 +68,24 @@ export default function Navbar() {
           fontSize="lg"
           _hover={{ textDecoration: 'none', color: 'teal.600' }}
         >
-          Mi Aplicación
+          Mercados Campesinos
         </ChakraLink>
       </Box>
 
       <Spacer />
 
       <Flex gap={2} wrap="nowrap">
+        <CustomNavLink to="/home" icon={FaHome}>
+          Pagina principal
+        </CustomNavLink>
         <CustomNavLink to="/products" icon={FaStoreAlt}>
-          Productos
+          Catalogo
+        </CustomNavLink>
+        <CustomNavLink to="/calendar" icon={FaCalendarDays}>
+          Calendario
+        </CustomNavLink>
+        <CustomNavLink to="/aboutUs" icon={MdOutlineBusiness}>
+          Razon social
         </CustomNavLink>
         <CustomNavLink to="/login" icon={FiLogIn}>
           Iniciar Sesión

@@ -5,6 +5,7 @@ import ProductCard from "./ProductCard";
 
 const Products = () => {
   const { data: products, isLoading } = useGetProductsQuery();
+
   return (
     <Grid
       id="productsGrid"
@@ -12,13 +13,13 @@ const Products = () => {
       w="100%"
       gap={5}
       p={5}
+      bg="green.100"
     >
       {isLoading && <Text>Loading...</Text>}
-      {!products?.length && !isLoading && <Text>No products available</Text>}
+      {!products?.length && !isLoading && <Text>No hay productos disponibles</Text>}
       {products?.map((product: Product) => (
-        <ProductCard {...product} />
+        <ProductCard key={product.id} {...product} />
       ))}
-
     </Grid>
   );
 };

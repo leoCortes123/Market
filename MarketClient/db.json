@@ -2,83 +2,640 @@
   "products": [
     {
       "id": 1,
-      "name": "Papa",
-      "description": "Papa criolla",
+      "name": "Mango",
+      "description": "Mango dulce y jugoso, ideal para jugos, postres y consumo directo.",
       "defaultUnitId": 0,
-      "imageUrl": "papaCriolla.png",
-      "averagePrice": 1500
+      "defaultUnit": "kg",
+      "imageUrl": "mango.jpg",
+      "averagePrice": 3000,
+      "categoria": "frutas"
     },
     {
       "id": 2,
-      "name": "Carne molida",
-      "description": "Carne molida de res",
+      "name": "Guayaba",
+      "description": "Fruta tropical aromática, perfecta para bocadillos, jugos y mermeladas.",
       "defaultUnitId": 0,
-      "imageUrl": "carneMolida.png",
-      "averagePrice": 20000
+      "defaultUnit": "kg",
+      "imageUrl": "guayaba.jpg",
+      "averagePrice": 2500,
+      "categoria": "frutas"
     },
     {
       "id": 3,
-      "name": "Arroz",
-      "description": "Arroz de grano largo",
+      "name": "Lulo",
+      "description": "Fruta cítrica y refrescante usada en jugos tradicionales colombianos.",
       "defaultUnitId": 0,
-      "imageUrl": "arroz.png",
-      "averagePrice": 3000
+      "defaultUnit": "kg",
+      "imageUrl": "lulo.jpg",
+      "averagePrice": 2800,
+      "categoria": "frutas"
     },
     {
       "id": 4,
-      "name": "Frijoles",
-      "description": "Frijoles rojos",
+      "name": "Banano bocadillo",
+      "description": "Variedad pequeña y dulce del banano, ideal para snacks o desayunos.",
       "defaultUnitId": 0,
-      "imageUrl": "frijoles.png",
-      "averagePrice": 2500
+      "defaultUnit": "kg",
+      "imageUrl": "bananoBocadillo.jpg",
+      "averagePrice": 2200,
+      "categoria": "frutas"
     },
     {
       "id": 5,
-      "name": "Lentejas",
-      "description": "Lentejas verdes",
+      "name": "Maracuyá",
+      "description": "Fruta ácida utilizada en jugos, postres y salsas típicas.",
       "defaultUnitId": 0,
-      "imageUrl": "lentejas.png",
-      "averagePrice": 3500
+      "defaultUnit": "kg",
+      "imageUrl": "maracuya.jpg",
+      "averagePrice": 3200,
+      "categoria": "frutas"
     },
     {
       "id": 6,
-      "name": "Aceite",
-      "description": "Aceite de girasol",
-      "defaultUnitId": 0,
-      "imageUrl": "aceite.png",
-      "averagePrice": 4500
+      "name": "Cilantro",
+      "description": "Hierba aromática imprescindible en la cocina colombiana para sopas y guisos.",
+      "defaultUnitId": 1,
+      "defaultUnit": "atado",
+      "imageUrl": "cilantro.jpeg",
+      "averagePrice": 800,
+      "categoria": "hierbas"
     },
     {
       "id": 7,
-      "name": "Sal",
-      "description": "Sal marina",
-      "defaultUnitId": 0,
-      "imageUrl": "sal.png",
-      "averagePrice": 1000
+      "name": "Hierba buena",
+      "description": "Hierba usada para infusiones y como condimento en platos tradicionales.",
+      "defaultUnitId": 1,
+      "defaultUnit": "atado",
+      "imageUrl": "hierbaBuena.webp",
+      "averagePrice": 1000,
+      "categoria": "hierbas"
     },
     {
       "id": 8,
-      "name": "Azúcar",
-      "description": "Azúcar moreno",
-      "defaultUnitId": 0,
-      "imageUrl": "azucar.png",
-      "averagePrice": 2000
+      "name": "Ruda",
+      "description": "Hierba medicinal usada en infusiones tradicionales colombianas.",
+      "defaultUnitId": 1,
+      "defaultUnit": "atado",
+      "imageUrl": "ruda.jpg",
+      "averagePrice": 1200,
+      "categoria": "hierbas"
     },
     {
       "id": 9,
-      "name": "Harina de trigo",
-      "description": "Harina de trigo integral",
-      "defaultUnitId": 0,
-      "imageUrl": "harinaTrigo.png",
-      "averagePrice": 1800
+      "name": "Tomillo",
+      "description": "Hierba usada para sazonar carnes, sopas y guisos.",
+      "defaultUnitId": 1,
+      "defaultUnit": "atado",
+      "imageUrl": "tomillo.jpg",
+      "averagePrice": 1000,
+      "categoria": "hierbas"
     },
     {
       "id": 10,
-      "name": "Leche",
-      "description": "Leche entera",
+      "name": "Papa criolla",
+      "description": "Papa criolla fresca, ideal para sopas, guisos y acompañamientos típicos colombianos.",
       "defaultUnitId": 0,
-      "imageUrl": "leche.png",
-      "averagePrice": 2500
+      "defaultUnit": "kg",
+      "imageUrl": "papaCriolla.png",
+      "averagePrice": 1500,
+      "categoria": "tuberculos"
+    },
+    {
+      "id": 11,
+      "name": "Yuca",
+      "description": "Tubérculo de textura firme, perfecto para frituras, sopas y acompañamientos.",
+      "defaultUnitId": 0,
+      "defaultUnit": "kg",
+      "imageUrl": "yuca.jpg",
+      "averagePrice": 1800,
+      "categoria": "tuberculos"
+    },
+    {
+      "id": 12,
+      "name": "Ñame",
+      "description": "Tubérculo almidonado usado en sancochos y platos costeños.",
+      "defaultUnitId": 0,
+      "defaultUnit": "kg",
+      "imageUrl": "name.jpg",
+      "averagePrice": 2000,
+      "categoria": "tuberculos"
+    },
+    {
+      "id": 13,
+      "name": "Arracacha",
+      "description": "Tubérculo suave y dulce, típico en sopas como el ajiaco.",
+      "defaultUnitId": 0,
+      "defaultUnit": "kg",
+      "imageUrl": "arracacha.jpg",
+      "averagePrice": 1700,
+      "categoria": "tuberculos"
+    },
+    {
+      "id": 14,
+      "name": "Zanahoria",
+      "description": "Verdura de raíz anaranjada, usada en guisos, sopas y ensaladas.",
+      "defaultUnitId": 0,
+      "defaultUnit": "kg",
+      "imageUrl": "zanahoria.jpg",
+      "averagePrice": 1500,
+      "categoria": "verduras"
+    },
+    {
+      "id": 15,
+      "name": "Cebolla larga",
+      "description": "Cebolla típica colombiana para sofritos, guisos y caldos.",
+      "defaultUnitId": 0,
+      "defaultUnit": "kg",
+      "imageUrl": "cebollaLarga.jpg",
+      "averagePrice": 1600,
+      "categoria": "verduras"
+    },
+    {
+      "id": 16,
+      "name": "Tomate chonto",
+      "description": "Tomate rojo jugoso, ideal para salsas, guisos y ensaladas.",
+      "defaultUnitId": 0,
+      "defaultUnit": "kg",
+      "imageUrl": "tomate.jpg",
+      "averagePrice": 2000,
+      "categoria": "verduras"
+    },
+    {
+      "id": 17,
+      "name": "Aguacate hass",
+      "description": "Aguacate cremoso ideal para acompañar platos típicos colombianos.",
+      "defaultUnitId": 0,
+      "defaultUnit": "unidad",
+      "imageUrl": "aguacate.jpg",
+      "averagePrice": 2500,
+      "categoria": "verduras"
+    },
+    {
+      "id": 18,
+      "name": "Ahuyama",
+      "description": "Calabaza colombiana usada en sopas, cremas y purés.",
+      "defaultUnitId": 0,
+      "defaultUnit": "kg",
+      "imageUrl": "ahuyama.jpg",
+      "averagePrice": 1300,
+      "categoria": "verduras"
+    },
+    {
+      "id": 19,
+      "name": "Queso campesino",
+      "description": "Queso blanco fresco típico de la dieta rural colombiana.",
+      "defaultUnitId": 0,
+      "defaultUnit": "kg",
+      "imageUrl": "quesoCampesino.png",
+      "averagePrice": 8000,
+      "categoria": "procesados"
+    },
+    {
+      "id": 20,
+      "name": "Yogurt artesanal",
+      "description": "Yogurt natural o con frutas, preparado artesanalmente con leche fresca.",
+      "defaultUnitId": 0,
+      "defaultUnit": "litro",
+      "imageUrl": "yogurt.jpg",
+      "averagePrice": 5000,
+      "categoria": "procesados"
+    },
+    {
+      "id": 21,
+      "name": "Arequipe",
+      "description": "Dulce de leche tradicional colombiano, ideal para postres o untar.",
+      "defaultUnitId": 0,
+      "defaultUnit": "frasco",
+      "imageUrl": "arequipe.jpg",
+      "averagePrice": 4500,
+      "categoria": "procesados"
+    },
+    {
+      "id": 22,
+      "name": "Pan de yuca",
+      "description": "Producto horneado típico, hecho con almidón de yuca y queso.",
+      "defaultUnitId": 0,
+      "defaultUnit": "unidad",
+      "imageUrl": "panDeYuca.gif",
+      "averagePrice": 1500,
+      "categoria": "procesados"
+    },
+    {
+      "id": 23,
+      "name": "Almojábana",
+      "description": "Panecillo tradicional colombiano hecho con cuajada y almidón.",
+      "defaultUnitId": 0,
+      "defaultUnit": "unidad",
+      "imageUrl": "almojabana.webp",
+      "averagePrice": 1800,
+      "categoria": "procesados"
+    }
+  ],
+  "units": [
+    {
+      "id": 0,
+      "name": "kg"
+    },
+    {
+      "id": 1,
+      "name": "gr"
+    },
+    {
+      "id": 2,
+      "name": "paquete"
+    },
+    {
+      "id": 3,
+      "name": "unidad"
+    },
+    {
+      "id": 4,
+      "name": "litro"
+    },
+    {
+      "id": 5,
+      "name": "frasco"
+    },
+    {
+      "id": 6,
+      "name": "atado"
+    },
+    {
+      "id": 7,
+      "name": "bulto"
+    },
+    {
+      "id": 8,
+      "name": "canasta"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "frutas",
+      "description": "Variedad de frutas frescas y tropicales."
+    },
+    {
+      "id": 2,
+      "name": "verduras",
+      "description": "Selección de verduras frescas y orgánicas."
+    },
+    {
+      "id": 3,
+      "name": "tuberculos",
+      "description": "Tubérculos frescos como papa, yuca y ñame."
+    },
+    {
+      "id": 4,
+      "name": "hierbas",
+      "description": "Hierbas aromáticas frescas para cocinar."
+    },
+    {
+      "id": 5,
+      "name": "procesados",
+      "description": "Productos procesados como quesos, yogures y arequipe."
+    }
+  ],
+  "box": [
+    {
+      "id": 1,
+      "name": "Caja de frutas",
+      "description": "Caja con una variedad de frutas frescas de temporada.",
+      "price": 15000,
+      "imageUrl": "cajaFrutas.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Caja de verduras",
+      "description": "Caja con una selección de verduras frescas y orgánicas.",
+      "price": 12000,
+      "imageUrl": "cajaVerduras.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Caja de tubérculos",
+      "description": "Caja con tubérculos frescos como papa, yuca y ñame.",
+      "price": 10000,
+      "imageUrl": "cajaTuberculos.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Caja de hierbas",
+      "description": "Caja con hierbas aromáticas frescas para cocinar.",
+      "price": 8000,
+      "imageUrl": "cajaHierbas.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Caja de procesados",
+      "description": "Caja con productos procesados como quesos, yogures y arequipe.",
+      "price": 20000,
+      "imageUrl": "cajaProcesados.jpg"
+    },
+    {
+      "id": 6,
+      "name": "Caja mixta",
+      "description": "Caja con una mezcla de frutas, verduras y tubérculos.",
+      "price": 18000,
+      "imageUrl": "cajaMixta.jpg"
+    }
+  ],
+  "ProductsBox": [
+    {
+      "boxId": 1,
+      "productId": 1,
+      "quantity": 2
+    },
+    {
+      "boxId": 1,
+      "productId": 2,
+      "quantity": 2
+    },
+    {
+      "boxId": 1,
+      "productId": 3,
+      "quantity": 2
+    },
+    {
+      "boxId": 1,
+      "productId": 4,
+      "quantity": 2
+    },
+    {
+      "boxId": 1,
+      "productId": 5,
+      "quantity": 2
+    },
+    {
+      "boxId": 2,
+      "productId": 14,
+      "quantity": 2
+    },
+    {
+      "boxId": 2,
+      "productId": 15,
+      "quantity": 2
+    },
+    {
+      "boxId": 2,
+      "productId": 16,
+      "quantity": 2
+    },
+    {
+      "boxId": 2,
+      "productId": 17,
+      "quantity": 2
+    },
+    {
+      "boxId": 2,
+      "productId": 18,
+      "quantity": 2
+    },
+    {
+      "boxId": 3,
+      "productId": 10,
+      "quantity": 2
+    },
+    {
+      "boxId": 3,
+      "productId": 11,
+      "quantity": 2
+    },
+    {
+      "boxId": 3,
+      "productId": 12,
+      "quantity": 2
+    },
+    {
+      "boxId": 3,
+      "productId": 13,
+      "quantity": 2
+    },
+    {
+      "boxId": 4,
+      "productId": 6,
+      "quantity": 1
+    },
+    {
+      "boxId": 4,
+      "productId": 7,
+      "quantity": 1
+    },
+    {
+      "boxId": 4,
+      "productId": 8,
+      "quantity": 1
+    },
+    {
+      "boxId": 4,
+      "productId": 9,
+      "quantity": 1
+    },
+    {
+      "boxId": 5,
+      "productId": 19,
+      "quantity": 1
+    },
+    {
+      "boxId": 5,
+      "productId": 20,
+      "quantity": 1
+    },
+    {
+      "boxId": 5,
+      "productId": 21,
+      "quantity": 1
+    },
+    {
+      "boxId": 5,
+      "productId": 22,
+      "quantity": 2
+    },
+    {
+      "boxId": 5,
+      "productId": 23,
+      "quantity": 2
+    },
+    {
+      "boxId": 6,
+      "productId": 1,
+      "quantity": 1
+    },
+    {
+      "boxId": 6,
+      "productId": 2,
+      "quantity": 1
+    },
+    {
+      "boxId": 6,
+      "productId": 14,
+      "quantity": 1
+    },
+    {
+      "boxId": 6,
+      "productId": 15,
+      "quantity": 1
+    },
+    {
+      "boxId": 6,
+      "productId": 10,
+      "quantity": 1
+    },
+    {
+      "boxId": 6,
+      "productId": 11,
+      "quantity": 1
+    }
+  ],
+  "Calendar": [
+    {
+      "id": 1,
+      "date": "2025-8-01"
+    },
+    {
+      "id": 2,
+      "date": "2025-8-02"
+    },
+    {
+      "id": 3,
+      "date": "2025-8-03"
+    }
+  ],
+  "Event": [
+    {
+      "id": 1,
+      "place": "UNIDAD NACIONAL DE PROTECCIÓN ",
+      "address": "Carrera 44 # 20 - 21",
+      "description": "PLaza de mercado con productos frescos y orgánicos.",
+      "timeStart": "07:00",
+      "timeEnd": "16:00",
+      "calendarId": 1
+    },
+    {
+      "id": 2,
+      "place": "Plazoleta Capital Towers",
+      "address": "Carrera 52 # 24-30",
+      "description": "Parqueadero disponible en la zona Bulevar de la 26.",
+      "timeStart": "07:00",
+      "timeEnd": "16:00",
+      "calendarId": 1
+    },
+    {
+      "id": 3,
+      "place": "Parque de Alcalá",
+      "address": "Calle 136 con Cra 19",
+      "description": "",
+      "timeStart": "07:00",
+      "timeEnd": "16:00",
+      "calendarId": 2
+    },
+    {
+      "id": 4,
+      "place": "Parque Fundacional de Fontibón",
+      "address": "Calle 18 con carrera 99",
+      "description": "",
+      "timeStart": "07:00",
+      "timeEnd": "16:00",
+      "calendarId": 2
+    },
+    {
+      "id": 5,
+      "place": "Plaza de los Artesanos",
+      "address": "Carrera 60 # 63 A - 52",
+      "description": "",
+      "timeStart": "07:00",
+      "timeEnd": "16:00",
+      "calendarId": 2
+    },
+    {
+      "id": 6,
+      "place": "Parque Vecinal El Nogal",
+      "address": "Calle 80 con Carrera 11",
+      "description": "",
+      "timeStart": "07:00",
+      "timeEnd": "16:00",
+      "calendarId": 2
+    },
+    {
+      "id": 7,
+      "place": "Plazoleta Calle 85",
+      "address": "Calle 85 Carrera 15",
+      "description": "",
+      "timeStart": "07:00",
+      "timeEnd": "16:00",
+      "calendarId": 2
+    },
+    {
+      "id": 8,
+      "place": "Jardín Botánico de Bogotá José Celestino Mutis",
+      "address": "Av. Calle 63 N° 68 - 95",
+      "description": "",
+      "timeStart": "07:00",
+      "timeEnd": "16:00",
+      "calendarId": 2
+    },
+    {
+      "id": 9,
+      "place": "Parque Floralia",
+      "address": "Calle 31 sur con transversal 68 C",
+      "description": "",
+      "timeStart": "07:00",
+      "timeEnd": "16:00",
+      "calendarId": 2
+    },
+    {
+      "id": 10,
+      "place": "Plazoleta Su Presencia",
+      "address": "AV. SUBA con Carrera 50",
+      "description": "",
+      "timeStart": "07:00",
+      "timeEnd": "16:00",
+      "calendarId": 3
+    },
+    {
+      "id": 11,
+      "place": "Parque de Salitre III Sector",
+      "address": "AV. SUBA con Carrera 50",
+      "description": "",
+      "timeStart": "07:00",
+      "timeEnd": "16:00",
+      "calendarId": 3
+    },
+    {
+      "id": 12,
+      "place": "Parque Urbanización Pasadena ",
+      "address": "Cra. 53 #103b-90",
+      "description": "",
+      "timeStart": "07:00",
+      "timeEnd": "16:00",
+      "calendarId": 3
+    },
+    {
+      "id": 13,
+      "place": "Parque Urbanización Cedritos",
+      "address": "Calle 145 con Carrera 10",
+      "description": "",
+      "timeStart": "07:00",
+      "timeEnd": "16:00",
+      "calendarId": 3
+    },
+    {
+      "id": 14,
+      "place": "Plazoleta Lourdes",
+      "address": "Calle 63 con Carrera 13",
+      "description": "",
+      "timeStart": "07:00",
+      "timeEnd": "16:00",
+      "calendarId": 3
+    },
+    {
+      "id": 15,
+      "place": "Jardín Botánico de Bogotá José Celestino Mutis",
+      "address": "Av. Calle 63 N° 68 - 95",
+      "description": "",
+      "timeStart": "07:00",
+      "timeEnd": "16:00",
+      "calendarId": 3
     }
   ]
 }

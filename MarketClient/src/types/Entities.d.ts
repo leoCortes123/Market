@@ -23,16 +23,29 @@ export interface Product {
   name: string;
   description?: string;
   defaultUnitId: number;
+  defaultUnit: string;
   imageUrl?: string;
   averagePrice?: number;
 }
 
 
-export interface Combo {
+export interface Box {
   id: number;
   name: string;
   description?: string;
   price: number;
   imageUrl?: string;
+}
+
+export interface ProductsBox {
+  boxId: number;
+  productId: number;
+  quantity: number;
+}
+
+export interface Categories {
+  id: number;
+  name: string;
+  description?: string;
 }
 

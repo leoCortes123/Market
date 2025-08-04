@@ -1,8 +1,12 @@
-import { Box, Button, Flex, Group, Heading, HStack, Input, VStack } from "@chakra-ui/react";
+import { useGetCategoriesQuery } from "@/store/api/productApi";
+import { Box, Button, Flex, Group, HStack, Input, Text, VStack } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import Products from "./Products";
 
+
 const ProductPage = () => {
+  const { data: Categories, isLoading } = useGetCategoriesQuery();
+
   return (
     <Flex
       id="productMainContainer"
@@ -12,53 +16,80 @@ const ProductPage = () => {
       align="center"
       justify="start"
     >
-      <Heading as="h1" size="xl" mb={2} mt={4} textAlign="center">
-        Productos
-      </Heading>
       <HStack
-        id="headerProducts"
+        id="headerContainer"
         direction="row"
+        w="full"
+        h="20%"
         align="center"
-        gap={4}
-        w={"100%"}
-        h={"10%"}
-        paddingX={5}
-        marginBottom={4}
+        justify="center"
+        mb={2}
+        mt={4}
       >
-        <Group
-          id="searchGroup"
-          attached
-          w="40%"
-          justifySelf="flex-end"
+
+        <Text
+          textStyle="5xl"
+          fontWeight="bold"
+          color="green.500"
+          w="30%"
+          pl={5}
+          textShadow="
+          1px 1px 2px rgba(0, 0, 0, 0.7),
+          1px 1px 2px rgba(0, 0, 0, 0.7),
+          1px 1px 2px rgba(0, 0, 0, 0.7),
+          1px 1px 2px rgba(0, 0, 0, 0.7)"
         >
-          <Input
-            flex="1"
-            size="md"
-            placeholder="Papa criolla, Frijol, Cebolla cabezona...  " />
-          <Button bg="bg.subtle" variant="outline">
-            <FaSearch />
-          </Button>
-        </Group>
-        <Group
-          id="optionsButtons"
-          attached
-          w={"60%"}
-          justifyContent="center"
+          Productos
+        </Text>
+        <HStack
+          id="headerOptions"
+          direction="row"
+          align="center"
+          justify="center"
+          gap={4}
+          w={"70%"}
+          h={"full"}
         >
-          <Button
-            colorPalette={"green"}
-            rounded="lg"
+
+          <Group
+            id="optionsButtons"
+            w="full"
+            justifyContent="center"
           >
-            Productos
-          </Button>
-          <Button
-            colorPalette={"yellow"}
-            rounded="lg"
-          >
-            Cajas
-          </Button>
-        </Group>
+            <Button
+              colorPalette={"green"}
+              rounded="lg"
+            >
+              Productos
+            </Button>
+            <Button
+              colorPalette={"yellow"}
+              rounded="lg"
+            >
+              Cajas
+            </Button>
+            <Button
+              colorPalette={"blue"}
+              rounded="lg"
+            >
+              De temporada
+            </Button>
+            <Button
+              colorPalette={"purple"}
+              rounded="lg"
+            >
+              Suscripciones
+            </Button>
+            <Button
+              colorPalette={"cyan"}
+              rounded="lg"
+            >
+              Recetas
+            </Button>
+          </Group>
+        </HStack>
       </HStack>
+
 
       <HStack
         id="productsContainer"
@@ -74,11 +105,48 @@ const ProductPage = () => {
           id="leftSidebar"
           w="20%"
           h="100%"
-          justify="center"
-          align="center"
+          justify="start"
+          align="start"
           gap={4}
           bg="gray.200"
         >
+          <Group
+            id="searchGroup"
+            attached
+            w="full"
+            justifySelf="flex-end"
+          >
+            <Input
+              flex="1"
+              size="md"
+              border={"1px solid"}
+              borderColor="green.500"
+              placeholder="Buscar..." />
+            <Button
+              bg="bg.subtle"
+              variant="outline"
+              border="1px solid"
+              borderColor="green.500">
+              <FaSearch />
+            </Button>
+          </Group>
+          <Box
+            id="categoriesList"
+            w="full"
+            p={4}
+          >
+
+            <Text fontSize="2xl" fontWeight="bold" mb={2}>Categorías</Text>
+            {isLoading && <Text>Cargando categorías...</Text>}
+            {!isLoading && Categories?.length === 0 && <Text>No hay categorías disponibles</Text>}
+            {Categories?.map((category) => (
+              <Text key={category.id} fontSize="lg" color="gray.700">
+                {category.name}
+              </Text>
+            ))}
+
+          </Box>
+
         </VStack>
         <Box
           id="productsList"

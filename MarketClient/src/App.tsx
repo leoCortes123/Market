@@ -7,11 +7,12 @@ function App() {
     <>
       <Navbar />
       <Flex
+        id="app-container"
         direction="column"
         align="center"
         justify="center"
-        width="100vw"
-        height="93vh"
+        width="full"
+        height="90vh"
         bg="white"
         colorPalette="green">
         <Outlet />

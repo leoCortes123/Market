@@ -27,7 +27,8 @@ const theme = defineConfig({
       margin: 0,
       padding: 0,
       height: '100%',
-      overflowX: 'hidden'
+      overflowX: 'hidden',
+      fontFamily: 'Outfit, sans-serif',
     },
     "#root": {
       position: 'absolute',
