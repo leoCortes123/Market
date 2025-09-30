@@ -1,18 +1,23 @@
 import { useGetProductsQuery } from "@/store/api/productApi";
 import type { Product } from "@/types/Entities";
-import { Grid, Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import ProductCard from "./ProductCard";
 
 const Products = () => {
   const { data: products, isLoading } = useGetProductsQuery();
 
   return (
-    <Grid
-      id="productsGrid"
-      templateColumns="repeat(auto-fill, minmax(300px, 1fr))"
+    <Flex
+      id="productsMainContainer"
+      direction="row"
+      wrap="wrap"
       w="100%"
-      gap={5}
-      p={5}
+      minH="100%"
+      align="stretch"
+      justify="start"
+      mb={10}
+      gap={4}
+      p={8}
       bg="green.100"
     >
       {isLoading && <Text>Loading...</Text>}
@@ -20,7 +25,7 @@ const Products = () => {
       {products?.map((product: Product) => (
         <ProductCard key={product.id} {...product} />
       ))}
-    </Grid>
+    </Flex>
   );
 };
 

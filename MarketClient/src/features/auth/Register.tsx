@@ -1,5 +1,5 @@
 import { useRegisterMutation } from '@/store/api/authApi';
-import type { User } from '@/types/Entities';
+import type { RegisterRequest } from '@/types/auth';
 import {
   Box,
   Button,
@@ -29,13 +29,13 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<User>();
+  } = useForm<RegisterRequest>();
 
 
-  const onSubmit = async (data: User) => {
+  const onSubmit = async (data: RegisterRequest) => {
     try {
       setError(null);
-      const userData: User = {
+      const userData: RegisterRequest = {
         ...data,
         isFarmerDistributor: isBuyer === '2'
       };

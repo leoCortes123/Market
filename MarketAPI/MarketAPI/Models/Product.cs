@@ -1,25 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MarketAPI.Models;
 
-public partial class Product
+[Table("Products")]
+public class Product
 {
+    [Key]
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    [Required, StringLength(100)]
+    public string Name { get; set; } = string.Empty;
 
     public string? Description { get; set; }
 
-    public int? DefaultUnitId { get; set; }
+    public int? MeasurementUnitId { get; set; }
 
     public string? ImageUrl { get; set; }
 
-    public bool IsActive { get; set; }
+    [Required]
+    public bool IsActive { get; set; } = true;
 
-    public virtual ICollection<ComboProduct> ComboProducts { get; set; } = new List<ComboProduct>();
+    [Required]
+    public int CategoryId { get; set; }
 
-    public virtual MeasurementUnit? DefaultUnit { get; set; }
-
-    public virtual ICollection<SupplierProduct> SupplierProducts { get; set; } = new List<SupplierProduct>();
+    // Navegación
+    public Category Category { get; set; } = null!;
+    public MeasurementUnit? MeasurementUnit { get; set; }
 }

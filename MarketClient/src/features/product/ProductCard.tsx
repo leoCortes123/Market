@@ -46,15 +46,15 @@ export default function ProductCard(product: Product) {
   return (
     <>
       <Card.Root
+        w="30%"
         className="group"
         size="sm"
         overflow="hidden"
-        maxH="300px"
         key={product.id}
         id={`product-${product.id}`}
         position="relative"
         color="white"
-        bg="gray.800"
+        aspectRatio={"1 / 1"}
         transition="transform 0.3s ease-in-out, scale 0.3s ease-in-out"
         _hover={{
           transform: "scale(1.05)",

@@ -1,4 +1,4 @@
-﻿namespace MarketAPI.Models.DTOs
+﻿namespace MarketAPI.Models.DTOs.Auth
 {
     public class UserDTO
     {

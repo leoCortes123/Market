@@ -1,6 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
 import Navbar from './features/components/NavBar';
+import './styles.css';
 
 function App() {
   return (

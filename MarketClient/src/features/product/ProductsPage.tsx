@@ -1,11 +1,10 @@
-import { useGetCategoriesQuery } from "@/store/api/productApi";
-import { Box, Button, Flex, Group, HStack, Input, Text, VStack } from "@chakra-ui/react";
-import { FaSearch } from "react-icons/fa";
+import { Box, Button, Flex, Group, HStack, Text, useBreakpointValue, } from "@chakra-ui/react";
+import FilterBar from "./FilterBar";
 import Products from "./Products";
 
 
 const ProductPage = () => {
-  const { data: Categories, isLoading } = useGetCategoriesQuery();
+  const isMobile = useBreakpointValue({ base: true, sm: false });
 
   return (
     <Flex
@@ -15,6 +14,7 @@ const ProductPage = () => {
       minH="100%"
       align="center"
       justify="start"
+      position={"relative"}
     >
       <HStack
         id="headerContainer"
@@ -26,21 +26,22 @@ const ProductPage = () => {
         mb={2}
         mt={4}
       >
-
-        <Text
-          textStyle="5xl"
-          fontWeight="bold"
-          color="green.500"
-          w="30%"
-          pl={5}
-          textShadow="
+        {!isMobile && (
+          <Text
+            textStyle="5xl"
+            fontWeight="bold"
+            color="green.500"
+            w="30%"
+            pl={5}
+            textShadow="
           1px 1px 2px rgba(0, 0, 0, 0.7),
           1px 1px 2px rgba(0, 0, 0, 0.7),
           1px 1px 2px rgba(0, 0, 0, 0.7),
           1px 1px 2px rgba(0, 0, 0, 0.7)"
-        >
-          Productos
-        </Text>
+          >
+            Productos
+          </Text>
+        )}
         <HStack
           id="headerOptions"
           direction="row"
@@ -100,54 +101,7 @@ const ProductPage = () => {
         justifyContent="center"
         alignItems="flex-start"
       >
-
-        <VStack
-          id="leftSidebar"
-          w="20%"
-          h="100%"
-          justify="start"
-          align="start"
-          gap={4}
-          bg="gray.200"
-        >
-          <Group
-            id="searchGroup"
-            attached
-            w="full"
-            justifySelf="flex-end"
-          >
-            <Input
-              flex="1"
-              size="md"
-              border={"1px solid"}
-              borderColor="green.500"
-              placeholder="Buscar..." />
-            <Button
-              bg="bg.subtle"
-              variant="outline"
-              border="1px solid"
-              borderColor="green.500">
-              <FaSearch />
-            </Button>
-          </Group>
-          <Box
-            id="categoriesList"
-            w="full"
-            p={4}
-          >
-
-            <Text fontSize="2xl" fontWeight="bold" mb={2}>Categorías</Text>
-            {isLoading && <Text>Cargando categorías...</Text>}
-            {!isLoading && Categories?.length === 0 && <Text>No hay categorías disponibles</Text>}
-            {Categories?.map((category) => (
-              <Text key={category.id} fontSize="lg" color="gray.700">
-                {category.name}
-              </Text>
-            ))}
-
-          </Box>
-
-        </VStack>
+        <FilterBar />
         <Box
           id="productsList"
           w="80%"

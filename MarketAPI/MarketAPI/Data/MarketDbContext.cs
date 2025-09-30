@@ -16,261 +16,317 @@ public partial class MarketDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Combo> Combos { get; set; }
-
-    public virtual DbSet<ComboProduct> ComboProducts { get; set; }
-
-    public virtual DbSet<MeasurementUnit> MeasurementUnits { get; set; }
-
-    public virtual DbSet<Order> Orders { get; set; }
-
-    public virtual DbSet<OrderComboItem> OrderComboItems { get; set; }
-
-    public virtual DbSet<OrderItem> OrderItems { get; set; }
-
-    public virtual DbSet<Payment> Payments { get; set; }
-
-    public virtual DbSet<Product> Products { get; set; }
-
-    public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
-
-    public virtual DbSet<Supplier> Suppliers { get; set; }
-
-    public virtual DbSet<SupplierCombo> SupplierCombos { get; set; }
-
-    public virtual DbSet<SupplierProduct> SupplierProducts { get; set; }
-
-    public virtual DbSet<SupplierReview> SupplierReviews { get; set; }
-
-    public virtual DbSet<User> Users { get; set; }
-
-    public virtual DbSet<UserRole> UserRoles { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=MarketApi;User Id=postgres;Password=123456;");
+    // DbSets
+    public DbSet<Category> Categories { get; set; } = null!;
+    public DbSet<Product> Products { get; set; } = null!;
+    public DbSet<MeasurementUnit> MeasurementUnits { get; set; } = null!;
+    public DbSet<Combo> Combos { get; set; } = null!;
+    public DbSet<ComboProduct> ComboProducts { get; set; } = null!;
+    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<UserRole> UserRoles { get; set; } = null!;
+    public DbSet<UserUserRole> UserUserRoles { get; set; } = null!;
+    public DbSet<Supplier> Suppliers { get; set; } = null!;
+    public DbSet<SupplierProduct> SupplierProducts { get; set; } = null!;
+    public DbSet<SupplierCombo> SupplierCombos { get; set; } = null!;
+    public DbSet<Order> Orders { get; set; } = null!;
+    public DbSet<OrderItem> OrderItems { get; set; } = null!;
+    public DbSet<OrderComboItem> OrderComboItems { get; set; } = null!;
+    public DbSet<Payment> Payments { get; set; } = null!;
+    public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
+    public DbSet<SupplierReview> SupplierReviews { get; set; } = null!;
+    public DbSet<Calendar> Calendars { get; set; } = null!;
+    public DbSet<Event> Events { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Combo>(entity =>
-        {
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.Name).HasMaxLength(100);
-            entity.Property(e => e.Price).HasPrecision(12, 2);
-        });
+        // Configuración de claves primarias con generación automática
+        ConfigurePrimaryKeys(modelBuilder);
 
-        modelBuilder.Entity<ComboProduct>(entity =>
-        {
-            entity.HasKey(e => new { e.ComboId, e.ProductId, e.UnitId });
+        // Claves compuestas
+        modelBuilder.Entity<ComboProduct>()
+            .HasKey(cp => new { cp.ComboId, cp.ProductId, cp.UnitId });
 
-            entity.HasIndex(e => e.ProductId, "IX_ComboProducts_ProductId");
+        modelBuilder.Entity<UserUserRole>()
+            .HasKey(uur => new { uur.UserId, uur.RoleId });
 
-            entity.HasIndex(e => e.UnitId, "IX_ComboProducts_UnitId");
+        // Relaciones
+        ConfigureRelationships(modelBuilder);
 
-            entity.Property(e => e.Quantity).HasPrecision(12, 2);
+        // Configuración de valores por defecto
+        ConfigureDefaultValues(modelBuilder);
 
-            entity.HasOne(d => d.Combo).WithMany(p => p.ComboProducts).HasForeignKey(d => d.ComboId);
+        // Timestamps
+        ConfigureTimestamps(modelBuilder);
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ComboProducts).HasForeignKey(d => d.ProductId);
-
-            entity.HasOne(d => d.Unit).WithMany(p => p.ComboProducts).HasForeignKey(d => d.UnitId);
-        });
-
-        modelBuilder.Entity<MeasurementUnit>(entity =>
-        {
-            entity.Property(e => e.Abbreviation).HasMaxLength(10);
-            entity.Property(e => e.Name).HasMaxLength(50);
-        });
-
-        modelBuilder.Entity<Order>(entity =>
-        {
-            entity.HasIndex(e => e.SupplierId, "IX_Orders_SupplierId");
-
-            entity.HasIndex(e => e.UserId, "IX_Orders_UserId");
-
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("now()");
-            entity.Property(e => e.PaymentMethod).HasMaxLength(50);
-            entity.Property(e => e.PaymentStatus).HasMaxLength(20);
-            entity.Property(e => e.Status).HasMaxLength(30);
-            entity.Property(e => e.TotalAmount).HasPrecision(12, 2);
-            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("now()");
-
-            entity.HasOne(d => d.Supplier).WithMany(p => p.Orders).HasForeignKey(d => d.SupplierId);
-
-            entity.HasOne(d => d.User).WithMany(p => p.Orders).HasForeignKey(d => d.UserId);
-        });
-
-        modelBuilder.Entity<OrderComboItem>(entity =>
-        {
-            entity.HasIndex(e => e.OrderId, "IX_OrderComboItems_OrderId");
-
-            entity.HasIndex(e => e.SupplierComboId, "IX_OrderComboItems_SupplierComboId");
-
-            entity.Property(e => e.Price).HasPrecision(12, 2);
-
-            entity.HasOne(d => d.Order).WithMany(p => p.OrderComboItems).HasForeignKey(d => d.OrderId);
-
-            entity.HasOne(d => d.SupplierCombo).WithMany(p => p.OrderComboItems).HasForeignKey(d => d.SupplierComboId);
-        });
-
-        modelBuilder.Entity<OrderItem>(entity =>
-        {
-            entity.HasIndex(e => e.MeasurementUnitId, "IX_OrderItems_MeasurementUnitId");
-
-            entity.HasIndex(e => e.OrderId, "IX_OrderItems_OrderId");
-
-            entity.HasIndex(e => e.SupplierProductId, "IX_OrderItems_SupplierProductId");
-
-            entity.HasIndex(e => e.UnitId, "IX_OrderItems_UnitId");
-
-            entity.Property(e => e.Price).HasPrecision(12, 2);
-            entity.Property(e => e.Quantity).HasPrecision(12, 2);
-
-            entity.HasOne(d => d.MeasurementUnit).WithMany(p => p.OrderItemMeasurementUnits).HasForeignKey(d => d.MeasurementUnitId);
-
-            entity.HasOne(d => d.Order).WithMany(p => p.OrderItems).HasForeignKey(d => d.OrderId);
-
-            entity.HasOne(d => d.SupplierProduct).WithMany(p => p.OrderItems).HasForeignKey(d => d.SupplierProductId);
-
-            entity.HasOne(d => d.Unit).WithMany(p => p.OrderItemUnits)
-                .HasForeignKey(d => d.UnitId)
-                .OnDelete(DeleteBehavior.Restrict);
-        });
-
-        modelBuilder.Entity<Payment>(entity =>
-        {
-            entity.HasIndex(e => e.OrderId, "IX_Payments_OrderId");
-
-            entity.Property(e => e.Amount).HasPrecision(12, 2);
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("now()");
-            entity.Property(e => e.Currency).HasMaxLength(10);
-            entity.Property(e => e.PaymentProvider).HasMaxLength(50);
-            entity.Property(e => e.ProviderPaymentId).HasMaxLength(100);
-            entity.Property(e => e.Status).HasMaxLength(30);
-
-            entity.HasOne(d => d.Order).WithMany(p => p.Payments).HasForeignKey(d => d.OrderId);
-        });
-
-        modelBuilder.Entity<Product>(entity =>
-        {
-            entity.HasIndex(e => e.DefaultUnitId, "IX_Products_DefaultUnitId");
-
-            entity.HasIndex(e => e.IsActive, "IX_Products_IsActive");
-
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.Name).HasMaxLength(100);
-
-            entity.HasOne(d => d.DefaultUnit).WithMany(p => p.Products).HasForeignKey(d => d.DefaultUnitId);
-        });
-
-        modelBuilder.Entity<RefreshToken>(entity =>
-        {
-            entity.HasIndex(e => e.UserId, "IX_RefreshTokens_UserId");
-
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("now()");
-            entity.Property(e => e.Token).HasMaxLength(255);
-
-            entity.HasOne(d => d.User).WithMany(p => p.RefreshTokens).HasForeignKey(d => d.UserId);
-        });
-
-        modelBuilder.Entity<Supplier>(entity =>
-        {
-            entity.HasIndex(e => e.UserId, "IX_Suppliers_UserId").IsUnique();
-
-            entity.Property(e => e.Address).HasMaxLength(255);
-            entity.Property(e => e.City).HasMaxLength(50);
-            entity.Property(e => e.Country).HasMaxLength(50);
-            entity.Property(e => e.DisplayName).HasMaxLength(100);
-            entity.Property(e => e.State).HasMaxLength(50);
-            entity.Property(e => e.ZipCode).HasMaxLength(20);
-
-            entity.HasOne(d => d.User).WithOne(p => p.Supplier).HasForeignKey<Supplier>(d => d.UserId);
-        });
-
-        modelBuilder.Entity<SupplierCombo>(entity =>
-        {
-            entity.HasIndex(e => e.ComboId, "IX_SupplierCombos_ComboId");
-
-            entity.HasIndex(e => e.SupplierId, "IX_SupplierCombos_SupplierId");
-
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("now()");
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.Price).HasPrecision(12, 2);
-
-            entity.HasOne(d => d.Combo).WithMany(p => p.SupplierCombos).HasForeignKey(d => d.ComboId);
-
-            entity.HasOne(d => d.Supplier).WithMany(p => p.SupplierCombos).HasForeignKey(d => d.SupplierId);
-        });
-
-        modelBuilder.Entity<SupplierProduct>(entity =>
-        {
-            entity.HasIndex(e => e.MeasurementUnitId, "IX_SupplierProducts_MeasurementUnitId");
-
-            entity.HasIndex(e => e.ProductId, "IX_SupplierProducts_ProductId");
-
-            entity.HasIndex(e => e.SupplierId, "IX_SupplierProducts_SupplierId");
-
-            entity.HasIndex(e => e.UnitId, "IX_SupplierProducts_UnitId");
-
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("now()");
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.Price).HasPrecision(12, 2);
-            entity.Property(e => e.Stock).HasPrecision(12, 2);
-
-            entity.HasOne(d => d.MeasurementUnit).WithMany(p => p.SupplierProductMeasurementUnits).HasForeignKey(d => d.MeasurementUnitId);
-
-            entity.HasOne(d => d.Product).WithMany(p => p.SupplierProducts).HasForeignKey(d => d.ProductId);
-
-            entity.HasOne(d => d.Supplier).WithMany(p => p.SupplierProducts).HasForeignKey(d => d.SupplierId);
-
-            entity.HasOne(d => d.Unit).WithMany(p => p.SupplierProductUnits)
-                .HasForeignKey(d => d.UnitId)
-                .OnDelete(DeleteBehavior.Restrict);
-        });
-
-        modelBuilder.Entity<SupplierReview>(entity =>
-        {
-            entity.HasIndex(e => e.SupplierId, "IX_SupplierReviews_SupplierId");
-
-            entity.HasIndex(e => e.UserId, "IX_SupplierReviews_UserId");
-
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("now()");
-
-            entity.HasOne(d => d.Supplier).WithMany(p => p.SupplierReviews).HasForeignKey(d => d.SupplierId);
-
-            entity.HasOne(d => d.User).WithMany(p => p.SupplierReviews).HasForeignKey(d => d.UserId);
-        });
-
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.Property(e => e.Email).HasMaxLength(150);
-            entity.Property(e => e.FullName).HasMaxLength(100);
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.PasswordHash).HasMaxLength(255);
-            entity.Property(e => e.Phone).HasMaxLength(30);
-            entity.Property(e => e.RegisteredAt).HasDefaultValueSql("now()");
-            entity.Property(e => e.Username).HasMaxLength(50);
-
-            entity.HasMany(d => d.Roles).WithMany(p => p.Users)
-                .UsingEntity<Dictionary<string, object>>(
-                    "UserUserRole",
-                    r => r.HasOne<UserRole>().WithMany().HasForeignKey("RoleId"),
-                    l => l.HasOne<User>().WithMany().HasForeignKey("UserId"),
-                    j =>
-                    {
-                        j.HasKey("UserId", "RoleId");
-                        j.ToTable("UserUserRoles");
-                        j.HasIndex(new[] { "RoleId" }, "IX_UserUserRoles_RoleId");
-                    });
-        });
-
-        modelBuilder.Entity<UserRole>(entity =>
-        {
-            entity.Property(e => e.Name).HasMaxLength(30);
-        });
-
-        OnModelCreatingPartial(modelBuilder);
+        base.OnModelCreating(modelBuilder);
     }
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+    private void ConfigurePrimaryKeys(ModelBuilder modelBuilder)
+    {
+        // Configurar todas las entidades con propiedad "Id" como clave primaria auto-generada
+        modelBuilder.Entity<Category>()
+            .HasKey(e => e.Id)
+            .HasName("PK_Categories");
+        modelBuilder.Entity<Category>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<Product>()
+            .HasKey(e => e.Id)
+            .HasName("PK_Products");
+        modelBuilder.Entity<Product>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<MeasurementUnit>()
+            .HasKey(e => e.Id)
+            .HasName("PK_MeasurementUnits");
+        modelBuilder.Entity<MeasurementUnit>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<Combo>()
+            .HasKey(e => e.Id)
+            .HasName("PK_Combos");
+        modelBuilder.Entity<Combo>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<User>()
+            .HasKey(e => e.Id)
+            .HasName("PK_Users");
+        modelBuilder.Entity<User>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<UserRole>()
+            .HasKey(e => e.Id)
+            .HasName("PK_UserRoles");
+        modelBuilder.Entity<UserRole>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<Supplier>()
+            .HasKey(e => e.Id)
+            .HasName("PK_Suppliers");
+        modelBuilder.Entity<Supplier>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<Order>()
+            .HasKey(e => e.Id)
+            .HasName("PK_Orders");
+        modelBuilder.Entity<Order>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<OrderItem>()
+            .HasKey(e => e.Id)
+            .HasName("PK_OrderItems");
+        modelBuilder.Entity<OrderItem>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<OrderComboItem>()
+            .HasKey(e => e.Id)
+            .HasName("PK_OrderComboItems");
+        modelBuilder.Entity<OrderComboItem>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<Payment>()
+            .HasKey(e => e.Id)
+            .HasName("PK_Payments");
+        modelBuilder.Entity<Payment>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<RefreshToken>()
+            .HasKey(e => e.Id)
+            .HasName("PK_RefreshTokens");
+        modelBuilder.Entity<RefreshToken>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<SupplierReview>()
+            .HasKey(e => e.Id)
+            .HasName("PK_SupplierReviews");
+        modelBuilder.Entity<SupplierReview>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<SupplierProduct>()
+            .HasKey(e => e.Id)
+            .HasName("PK_SupplierProducts");
+        modelBuilder.Entity<SupplierProduct>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<SupplierCombo>()
+            .HasKey(e => e.Id)
+            .HasName("PK_SupplierCombos");
+        modelBuilder.Entity<SupplierCombo>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+        modelBuilder.Entity<Calendar>()
+            .HasKey(e => e.Id)
+            .HasName("PK_Calendars");
+        modelBuilder.Entity<Calendar>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<Event>()
+            .HasKey(e => e.Id)
+            .HasName("PK_Events");
+        modelBuilder.Entity<Event>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+    }
+
+    private void ConfigureRelationships(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<ComboProduct>()
+            .HasOne(cp => cp.Combo)
+            .WithMany(c => c.ComboProducts)
+            .HasForeignKey(cp => cp.ComboId);
+
+        modelBuilder.Entity<ComboProduct>()
+            .HasOne(cp => cp.Product)
+            .WithMany()
+            .HasForeignKey(cp => cp.ProductId);
+
+        modelBuilder.Entity<ComboProduct>()
+            .HasOne(cp => cp.Unit)
+            .WithMany()
+            .HasForeignKey(cp => cp.UnitId);
+
+        modelBuilder.Entity<UserUserRole>()
+            .HasOne(uur => uur.User)
+            .WithMany(u => u.UserUserRoles)
+            .HasForeignKey(uur => uur.UserId);
+
+        modelBuilder.Entity<UserUserRole>()
+            .HasOne(uur => uur.Role)
+            .WithMany(r => r.UserUserRoles)
+            .HasForeignKey(uur => uur.RoleId);
+
+        modelBuilder.Entity<Supplier>()
+            .HasOne(s => s.User)
+            .WithMany()
+            .HasForeignKey(s => s.UserId);
+
+        modelBuilder.Entity<SupplierProduct>()
+            .HasOne(sp => sp.Supplier)
+            .WithMany(s => s.SupplierProducts)
+            .HasForeignKey(sp => sp.SupplierId);
+
+        modelBuilder.Entity<SupplierProduct>()
+            .HasOne(sp => sp.Product)
+            .WithMany()
+            .HasForeignKey(sp => sp.ProductId);
+
+        modelBuilder.Entity<Order>()
+            .HasOne(o => o.User)
+            .WithMany(u => u.Orders)
+            .HasForeignKey(o => o.UserId);
+
+        modelBuilder.Entity<Order>()
+            .HasOne(o => o.Supplier)
+            .WithMany(s => s.Orders)
+            .HasForeignKey(o => o.SupplierId);
+
+        modelBuilder.Entity<OrderItem>()
+            .HasOne(oi => oi.Order)
+            .WithMany(o => o.OrderItems)
+            .HasForeignKey(oi => oi.OrderId);
+
+        modelBuilder.Entity<OrderComboItem>()
+            .HasOne(oci => oci.Order)
+            .WithMany(o => o.OrderComboItems)
+            .HasForeignKey(oci => oci.OrderId);
+
+        modelBuilder.Entity<Payment>()
+            .HasOne(p => p.Order)
+            .WithMany(o => o.Payments)
+            .HasForeignKey(p => p.OrderId);
+
+        modelBuilder.Entity<RefreshToken>()
+            .HasOne(rt => rt.User)
+            .WithMany(u => u.RefreshTokens)
+            .HasForeignKey(rt => rt.UserId);
+
+        modelBuilder.Entity<SupplierReview>()
+            .HasOne(sr => sr.Supplier)
+            .WithMany(s => s.SupplierReviews)
+            .HasForeignKey(sr => sr.SupplierId);
+
+        modelBuilder.Entity<SupplierReview>()
+            .HasOne(sr => sr.User)
+            .WithMany(u => u.SupplierReviews)
+            .HasForeignKey(sr => sr.UserId);
+    }
+
+    private void ConfigureDefaultValues(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Combo>()
+            .Property(c => c.IsActive)
+            .HasDefaultValue(true);
+
+        modelBuilder.Entity<Product>()
+            .Property(p => p.IsActive)
+            .HasDefaultValue(true);
+
+        modelBuilder.Entity<SupplierProduct>()
+            .Property(sp => sp.IsActive)
+            .HasDefaultValue(true);
+
+        modelBuilder.Entity<SupplierCombo>()
+            .Property(sc => sc.IsActive)
+            .HasDefaultValue(true);
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.IsActive)
+            .HasDefaultValue(true);
+        modelBuilder.Entity<Event>()
+            .HasOne(e => e.Calendar)
+            .WithMany(c => c.Events)
+            .HasForeignKey(e => e.CalendarId);
+    }
+
+    private void ConfigureTimestamps(ModelBuilder modelBuilder)
+    {
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            if (entityType.ClrType == typeof(Order))
+            {
+                modelBuilder.Entity<Order>()
+                    .Property(o => o.CreatedAt)
+                    .HasDefaultValueSql("now()");
+
+                modelBuilder.Entity<Order>()
+                    .Property(o => o.UpdatedAt)
+                    .HasDefaultValueSql("now()");
+            }
+            else if (entityType.ClrType == typeof(Payment))
+            {
+                modelBuilder.Entity<Payment>()
+                    .Property(p => p.CreatedAt)
+                    .HasDefaultValueSql("now()");
+            }
+            else if (entityType.ClrType == typeof(RefreshToken))
+            {
+                modelBuilder.Entity<RefreshToken>()
+                    .Property(rt => rt.CreatedAt)
+                    .HasDefaultValueSql("now()");
+            }
+            else if (entityType.ClrType == typeof(SupplierProduct) ||
+                     entityType.ClrType == typeof(SupplierCombo) ||
+                     entityType.ClrType == typeof(SupplierReview))
+            {
+                modelBuilder.Entity(entityType.ClrType)
+                    .Property("CreatedAt")
+                    .HasDefaultValueSql("now()");
+            }
+        }
+    }
 }

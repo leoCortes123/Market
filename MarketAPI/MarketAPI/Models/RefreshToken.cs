@@ -1,21 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MarketAPI.Models;
 
-public partial class RefreshToken
+[Table("RefreshTokens")]
+public class RefreshToken
 {
+    [Key]
     public int Id { get; set; }
 
+    [Required]
     public int UserId { get; set; }
 
-    public string Token { get; set; } = null!;
+    [Required, StringLength(255)]
+    public string Token { get; set; } = string.Empty;
 
-    public DateTime ExpiresAt { get; set; }
+    [Required]
+    public DateTimeOffset ExpiresAt { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    [Required]
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 
-    public DateTime? RevokedAt { get; set; }
+    public DateTimeOffset? RevokedAt { get; set; }
 
-    public virtual User User { get; set; } = null!;
+    // Navegación
+    public User User { get; set; } = null!;
 }

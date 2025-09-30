@@ -2,11 +2,11 @@
 using MarketAPI.Data;
 using MarketAPI.Models;
 using MarketAPI.Models.DTOs;
+using MarketAPI.Models.DTOs.Auth;
+using MarketAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using NLog;
-using System.Runtime.CompilerServices;
 
 namespace MarketAPI.Services
 {

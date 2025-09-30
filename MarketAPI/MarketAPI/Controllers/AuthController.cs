@@ -1,6 +1,7 @@
 ﻿using MarketAPI.Models;
 using MarketAPI.Models.DTOs;
-using MarketAPI.Services;
+using MarketAPI.Models.DTOs.Auth;
+using MarketAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +9,7 @@ namespace MarketAPI.Controllers
 {
 
 
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthController(IAuthService authService) : ControllerBase
     {
@@ -20,11 +21,6 @@ namespace MarketAPI.Controllers
             try
             {
                 var user = await authService.RegisterAsync(Request);
-                if (user == null)
-                {
-                    logger.Warn("User registration failed: Username or Email already exists.");
-                    return BadRequest("Username or Email already exists.");
-                }
 
                 return Ok(user);
             }
@@ -38,6 +34,7 @@ namespace MarketAPI.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<TokenResponseDTO>> Login( LoginDTO request)
         {
+            Console.WriteLine("en login api" + request);
             try
             {
                 var response = await authService.LoginAsync(request);

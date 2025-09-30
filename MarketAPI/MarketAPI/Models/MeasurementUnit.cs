@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MarketAPI.Models;
 
-public partial class MeasurementUnit
+[Table("MeasurementUnits")]
+public class MeasurementUnit
 {
+    [Key]
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    [Required, StringLength(50)]
+    public string Name { get; set; } = string.Empty;
 
-    public string Abbreviation { get; set; } = null!;
+    [Required, StringLength(10)]
+    public string Abbreviation { get; set; } = string.Empty;
 
+    [Required]
     public bool IsWeight { get; set; }
 
     public int? WeightInGrams { get; set; }
 
-    public virtual ICollection<ComboProduct> ComboProducts { get; set; } = new List<ComboProduct>();
-
-    public virtual ICollection<OrderItem> OrderItemMeasurementUnits { get; set; } = new List<OrderItem>();
-
-    public virtual ICollection<OrderItem> OrderItemUnits { get; set; } = new List<OrderItem>();
-
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
-
-    public virtual ICollection<SupplierProduct> SupplierProductMeasurementUnits { get; set; } = new List<SupplierProduct>();
-
-    public virtual ICollection<SupplierProduct> SupplierProductUnits { get; set; } = new List<SupplierProduct>();
+    public virtual ICollection<Product> Products { get; set; } = [];
 }

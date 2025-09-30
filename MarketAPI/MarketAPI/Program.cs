@@ -1,6 +1,7 @@
 using MarketAPI.Custom;
 using MarketAPI.Data;
 using MarketAPI.Services;
+using MarketAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -82,7 +83,16 @@ try
     });
 
     builder.Services.AddScoped<IAuthService, AuthService>();
-
+    builder.Services.AddScoped<IProductService, ProductService>();
+    builder.Services.AddScoped<IComboService, ComboService>();
+    builder.Services.AddScoped<IComboProductService, ComboProductService>();
+    builder.Services.AddScoped<ICalendarService, CalendarService>();
+    builder.Services.AddScoped<IEventService, EventService>();
+    builder.Services.AddScoped<ICategoryService, CategoryService>();
+    builder.Services.AddScoped<IMeasurementUnitService, MeasurementUnitService>();
+    builder.Services.AddScoped<ISupplierService, SupplierService>();
+    builder.Services.AddScoped<IOrderService, OrderService>();
+    builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 
     var app = builder.Build();

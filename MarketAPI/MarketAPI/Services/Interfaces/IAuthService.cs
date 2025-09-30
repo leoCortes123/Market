@@ -1,7 +1,8 @@
 ﻿using MarketAPI.Models;
 using MarketAPI.Models.DTOs;
+using MarketAPI.Models.DTOs.Auth;
 
-namespace MarketAPI.Services
+namespace MarketAPI.Services.Interfaces
 {
     public interface IAuthService
     {

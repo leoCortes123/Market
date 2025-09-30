@@ -1,0 +1,79 @@
+﻿INSERT INTO "Categories" ("Id", "Name", "Description") VALUES
+(1, 'Frutas y Verduras', 'Productos frescos del campo'),
+(2, 'Lácteos y Huevos', 'Productos lácteos y huevos frescos'),
+(3, 'Granos y Cereales', 'Arroz, frijol, maíz y más'),
+(4, 'Carnes y Embutidos', 'Carnes frescas y procesadas'),
+(5, 'Panadería y Desayuno', 'Arepas, pan, café y más'),
+(6, 'Otros', 'Productos varios');
+
+-- 2. Unidades de Medida
+INSERT INTO "MeasurementUnits" ("Id", "Name", "Abbreviation", "IsWeight", "WeightInGrams") VALUES
+(1, 'Gramo', 'g', true, 1),
+(2, 'Kilogramo', 'kg', true, 1000),
+(3, 'Libra', 'lb', true, 453),
+(4, 'Mililitro', 'ml', false, NULL),
+(5, 'Litro', 'l', false, NULL),
+(6, 'Unidad', 'un', false, NULL),
+(7, 'Docena', 'doc', false, NULL),
+(8, 'Paquete', 'pq', false, NULL),
+(9, 'Caja', 'cj', false, NULL);
+
+-- 3. Productos (con CategoryId asignado)
+INSERT INTO "Products" ("Id", "Name", "Description", "DefaultUnitId", "ImageUrl", "IsActive", "CategoryId") VALUES
+(1, 'Manzana', 'Manzanas rojas frescas', 6, 'manzana.jpg', true, 1),
+(2, 'Banano', 'Bananos maduros de exportación', 6, 'banano.jpg', true, 1),
+(3, 'Fresa', 'Fresas jugosas recién cosechadas', 1, 'fresa.jpg', true, 1),
+(4, 'Mango', 'Mangos maduros y dulces', 6, 'mango.jpg', true, 1),
+(5, 'Piña', 'Piñas dulces y jugosas', 6, 'piña.jpg', true, 1),
+(6, 'Tomate', 'Tomates rojos y frescos', 6, 'tomate.jpg', true, 1),
+(7, 'Cebolla', 'Cebollas blancas grandes', 6, 'cebolla.jpg', true, 1),
+(8, 'Zanahoria', 'Zanahorias frescas y crujientes', 6, 'zanahoria.jpg', true, 1),
+(9, 'Lechuga', 'Lechuga crespa orgánica', 6, 'lechuga.jpg', true, 1),
+(10, 'Papa', 'Papa pastusa de primera', 2, 'papa.jpg', true, 1),
+(11, 'Yuca', 'Yuca fresca y de buena calidad', 2, 'yuca.jpg', true, 1),
+(12, 'Plátano', 'Plátano verde para cocinar', 6, 'platano.jpg', true, 1),
+(13, 'Queso Campesino', 'Queso fresco campesino 250g', 1, 'queso.jpg', true, 2),
+(14, 'Yogurt Natural', 'Yogurt natural sin azúcar 1L', 5, 'yogurt.jpg', true, 2),
+(15, 'Mantequilla', 'Mantequilla sin sal 200g', 1, 'mantequilla.jpg', true, 2),
+(16, 'Arepa de Maíz', 'Arepas de maíz blanco x6 unidades', 8, 'arepa.jpg', true, 5),
+(17, 'Panela', 'Panela pulverizada 500g', 1, 'panela.jpg', true, 3),
+(18, 'Mermelada de Fresa', 'Mermelada artesanal de fresa 250g', 1, 'mermelada.jpg', true, 6),
+(19, 'Chorizo', 'Chorizo artesanal x2 unidades', 6, 'chorizo.jpg', true, 4),
+(20, 'Café Molido', 'Café molido 100% colombiano 500g', 1, 'cafe.jpg', true, 5),
+(21, 'Arroz', 'Arroz blanco de primera 1kg', 2, 'arroz.jpg', true, 3),
+(22, 'Frijol', 'Frijol rojo seleccionado 500g', 1, 'frijol.jpg', true, 3),
+(23, 'Lenteja', 'Lenteja verde de excelente calidad 500g', 1, 'lenteja.jpg', true, 3),
+(24, 'Maíz', 'Maíz amarillo para arepas 1kg', 2, 'maiz.jpg', true, 3),
+(25, 'Huevos', 'Huevos AA x12 unidades', 7, 'huevos.jpg', true, 2),
+(26, 'Miel de Abeja', 'Miel pura de abejas 250g', 1, 'miel.jpg', true, 6),
+(27, 'Aguacate', 'Aguacate hass maduro', 6, 'aguacate.jpg', true, 1),
+(28, 'Limón', 'Limón tahití fresco', 6, 'limon.jpg', true, 1),
+(29, 'Cilantro', 'Cilantro fresco en manojos', 6, 'cilantro.jpg', true, 1),
+(30, 'Artisanal Basket', 'Cesta artesanal tejida a mano', 6, 'cesta.jpg', true, 6);
+
+-- 4. Combos
+INSERT INTO "Combos" ("Id", "Name", "Description", "Price", "ImageUrl", "IsActive") VALUES
+(1, 'Desayuno Campesino', 'Incluye arepas, queso, huevos y café para un desayuno completo', 35000.00, 'desayuno.jpg', true),
+(2, 'Ensalada Fresca', 'Todo lo necesario para una ensalada saludable', 18000.00, 'ensalada.jpg', true),
+(3, 'Granja Completa', 'Variedad de frutas, verduras y lácteos', 45000.00, 'granja.jpg', true),
+(4, 'Asado Colombiano', 'Todo para un asado tradicional', 38000.00, 'asado.jpg', true);
+
+-- 5. Relación Combo-Producto
+INSERT INTO "ComboProducts" ("ComboId", "ProductId", "UnitId", "Quantity") VALUES
+(1, 16, 8, 1.00),
+(1, 13, 1, 0.25),
+(1, 25, 7, 1.00),
+(1, 20, 1, 0.50),
+(2, 9, 6, 1.00),
+(2, 6, 6, 4.00),
+(2, 8, 6, 6.00),
+(2, 7, 6, 2.00),
+(3, 1, 6, 6.00),
+(3, 2, 6, 12.00),
+(3, 10, 2, 2.00),
+(3, 14, 5, 1.00),
+(3, 21, 2, 1.00),
+(4, 19, 8, 2.00),
+(4, 10, 2, 3.00),
+(4, 11, 2, 2.00),
+(4, 12, 6, 8.00);

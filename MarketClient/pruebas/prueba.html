@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Puntillismo SVG → puntos escalados</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      font-family: system-ui, sans-serif;
+    }
+
+    body {
+      margin: 24px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    label {
+      font-size: 14px;
+    }
+
+    #canvasWrap {
+      position: relative;
+      overflow: auto;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 8px;
+    }
+
+    canvas {
+      display: block;
+      background: #fff;
+      border-radius: 8px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 160px;
+      font-family: ui-monospace, monospace;
+    }
+
+    button {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background: #f7f7f7;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .pill {
+      padding: 4px 8px;
+      border: 1px solid #ddd;
+      border-radius: 999px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Puntillismo de SVG → lista de puntos (x, y) escalados</h1>
+
+  <div class="row">
+    <input id="file" type="file" accept=".svg,image/svg+xml" />
+    <span class="pill">1) Carga tu SVG</span>
+  </div>
+
+  <div class="row">
+    <label> Paso (px):
+      <input id="step" type="number" min="0.5" step="0.5" value="2" style="width:80px" />
+    </label>
+    <label> Jitter (ruido px):
+      <input id="jitter" type="number" min="0" step="0.5" value="0" style="width:80px" />
+    </label>
+    <label> Tamaño punto:
+      <input id="dotSize" type="number" min="1" step="1" value="2" style="width:80px" />
+    </label>
+    <button id="run" disabled>2) Muestrear puntos</button>
+    <span id="count" class="pill">0 puntos</span>
+  </div>
+
+  <div id="canvasWrap">
+    <canvas id="cnv" width="800" height="800"></canvas>
+  </div>
+
+  <div class="row">
+    <button id="copy" disabled>Copiar JSON</button>
+    <button id="download" disabled>Descargar JSON</button>
+  </div>
+  <textarea id="output" placeholder="Aquí verás el array de puntos [{x, y}, ...]" readonly></textarea>
+
+  <svg id="workSvg" xmlns="http://www.w3.org/2000/svg"
+    style="position: absolute; left: -99999px; top: -99999px; visibility: hidden;"></svg>
+
+  <script>
+    const fileInput = document.getElementById('file');
+    const stepInput = document.getElementById('step');
+    const jitterInput = document.getElementById('jitter');
+    const dotSizeInput = document.getElementById('dotSize');
+    const runBtn = document.getElementById('run');
+    const copyBtn = document.getElementById('copy');
+    const downloadBtn = document.getElementById('download');
+    const outTA = document.getElementById('output');
+    const countBadge = document.getElementById('count');
+    const cnv = document.getElementById('cnv');
+    const ctx = cnv.getContext('2d');
+    const workSvg = document.getElementById('workSvg');
+
+    let lastPoints = [];
+    let svgViewBox = null;
+    let autoScale = 1;
+
+    function parseSVGString(svgText) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(svgText, 'image/svg+xml');
+      const svg = doc.querySelector('svg');
+      if (!svg) throw new Error('No se encontró la etiqueta <svg> en el archivo.');
+      return svg;
+    }
+
+    function mountIntoWorkSvg(srcSvg) {
+      while (workSvg.firstChild) workSvg.removeChild(workSvg.firstChild);
+
+      const vb = srcSvg.getAttribute('viewBox');
+      const w = srcSvg.getAttribute('width');
+      const h = srcSvg.getAttribute('height');
+      if (vb) {
+        const parts = vb.trim().split(/\s+|,/).map(Number);
+        svgViewBox = { x: parts[0], y: parts[1], width: parts[2], height: parts[3] };
+      } else {
+        const width = parseFloat(w) || 100;
+        const height = parseFloat(h) || 100;
+        svgViewBox = { x: 0, y: 0, width, height };
+      }
+
+      // Calcular un factor de escala automático para ocupar 800 px
+      const maxDim = Math.max(svgViewBox.width, svgViewBox.height);
+      autoScale = 800 / maxDim;
+
+      const imported = document.importNode(srcSvg, true);
+      while (imported.firstChild) {
+        workSvg.appendChild(imported.firstChild);
+      }
+    }
+
+    function sampleGeometryElements(step, jitter = 0) {
+      const selectors = ['path', 'line', 'polyline', 'polygon', 'rect', 'circle', 'ellipse'];
+      const geoms = workSvg.querySelectorAll(selectors.join(','));
+      const pts = [];
+
+      geoms.forEach(el => {
+        if (typeof el.getTotalLength !== 'function' || typeof el.getPointAtLength !== 'function') return;
+        const prevDisp = el.style.display;
+        el.style.display = 'inline';
+
+        let length;
+        try {
+          length = el.getTotalLength();
+        } catch (e) {
+          el.style.display = prevDisp;
+          return;
+        }
+
+        const steps = Math.max(1, Math.ceil(length / step));
+        for (let i = 0; i <= steps; i++) {
+          const d = (i / steps) * length;
+          let p;
+          try {
+            p = el.getPointAtLength(d);
+          } catch {
+            continue;
+          }
+          let x = p.x * autoScale;
+          let y = p.y * autoScale;
+
+          if (jitter > 0) {
+            x += (Math.random() * 2 - 1) * jitter;
+            y += (Math.random() * 2 - 1) * jitter;
+          }
+          pts.push({ x: +x.toFixed(3), y: +y.toFixed(3) });
+        }
+
+        el.style.display = prevDisp;
+      });
+
+      return pts;
+    }
+
+    function renderPoints(points, dotSize = 2) {
+      ctx.clearRect(0, 0, cnv.width, cnv.height);
+      ctx.fillStyle = '#111';
+      points.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, dotSize, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    function toJSON(points) {
+      return JSON.stringify(points, null, 2);
+    }
+
+    function download(filename, text) {
+      const blob = new Blob([text], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    fileInput.addEventListener('change', async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const text = await file.text();
+      try {
+        const srcSvg = parseSVGString(text);
+        mountIntoWorkSvg(srcSvg);
+        runBtn.disabled = false;
+      } catch (err) {
+        alert('Error al leer SVG: ' + (err?.message || err));
+        runBtn.disabled = true;
+      }
+    });
+
+    runBtn.addEventListener('click', () => {
+      const step = Math.max(0.1, Number(stepInput.value) || 2);
+      const jitter = Math.max(0, Number(jitterInput.value) || 0);
+      const dot = Math.max(1, Number(dotSizeInput.value) || 2);
+
+      lastPoints = sampleGeometryElements(step, jitter);
+      countBadge.textContent = `${lastPoints.length} puntos`;
+      outTA.value = toJSON(lastPoints);
+      renderPoints(lastPoints, dot);
+      const enabled = lastPoints.length > 0;
+      copyBtn.disabled = !enabled;
+      downloadBtn.disabled = !enabled;
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(outTA.value);
+        copyBtn.textContent = '¡Copiado!';
+        setTimeout(() => copyBtn.textContent = 'Copiar JSON', 1200);
+      } catch {
+        alert('No se pudo copiar al portapapeles.');
+      }
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      download('puntos.json', outTA.value || '[]');
+    });
+  </script>
+</body>
+
+</html>

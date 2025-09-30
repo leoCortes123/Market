@@ -1,27 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MarketAPI.Models;
 
-public partial class Payment
+[Table("Payments")]
+public class Payment
 {
+    [Key]
     public int Id { get; set; }
 
+    [Required]
     public int OrderId { get; set; }
 
+    [StringLength(50)]
     public string? PaymentProvider { get; set; }
 
+    [StringLength(100)]
     public string? ProviderPaymentId { get; set; }
 
+    [Required]
     public decimal Amount { get; set; }
 
-    public string Currency { get; set; } = null!;
+    [Required, StringLength(10)]
+    public string Currency { get; set; } = "USD";
 
-    public string Status { get; set; } = null!;
+    [Required, StringLength(30)]
+    public string Status { get; set; } = string.Empty;
 
-    public DateTime? PaidAt { get; set; }
+    public DateTimeOffset? PaidAt { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    [Required]
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 
-    public virtual Order Order { get; set; } = null!;
+    // Navegación
+    public Order Order { get; set; } = null!;
 }

@@ -1,23 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MarketAPI.Models;
 
-public partial class SupplierReview
+[Table("SupplierReviews")]
+public class SupplierReview
 {
+    [Key]
     public int Id { get; set; }
 
+    [Required]
     public int SupplierId { get; set; }
 
     public int? UserId { get; set; }
 
+    [Required]
     public int Rating { get; set; }
 
     public string? Review { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    [Required]
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 
-    public virtual Supplier Supplier { get; set; } = null!;
-
-    public virtual User? User { get; set; }
+    // Navegación
+    public Supplier Supplier { get; set; } = null!;
+    public User? User { get; set; }
 }

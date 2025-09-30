@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MarketAPI.Models;
 
-public partial class UserRole
+[Table("UserRoles")]
+public class UserRole
 {
+    [Key]
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    [Required, StringLength(30)]
+    public string Name { get; set; } = string.Empty;
 
-    public virtual ICollection<User> Users { get; set; } = new List<User>();
+    // Navegación
+    public ICollection<UserUserRole> UserUserRoles { get; set; } = new List<UserUserRole>();
 }

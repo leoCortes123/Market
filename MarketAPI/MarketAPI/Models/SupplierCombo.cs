@@ -1,27 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MarketAPI.Models;
 
-public partial class SupplierCombo
+[Table("SupplierCombos")]
+public class SupplierCombo
 {
+    [Key]
     public int Id { get; set; }
 
+    [Required]
     public int SupplierId { get; set; }
 
+    [Required]
     public int ComboId { get; set; }
 
+    [Required]
     public decimal Price { get; set; }
 
+    [Required]
     public int Stock { get; set; }
 
-    public bool IsActive { get; set; }
+    [Required]
+    public bool IsActive { get; set; } = true;
 
-    public DateTime CreatedAt { get; set; }
+    [Required]
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 
-    public virtual Combo Combo { get; set; } = null!;
-
-    public virtual ICollection<OrderComboItem> OrderComboItems { get; set; } = new List<OrderComboItem>();
-
-    public virtual Supplier Supplier { get; set; } = null!;
+    // Navegación
+    public Supplier Supplier { get; set; } = null!;
+    public Combo Combo { get; set; } = null!;
 }
