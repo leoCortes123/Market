@@ -58,6 +58,60 @@ public partial class MarketDbContext : DbContext
         // Timestamps
         ConfigureTimestamps(modelBuilder);
 
+        // ---- SEED DATA ----
+
+        // Roles
+        modelBuilder.Entity<UserRole>().HasData(
+            new UserRole { Id = 1, Name = "Admin" },
+            new UserRole { Id = 2, Name = "Customer" },
+            new UserRole { Id = 3, Name = "Supplier" }
+        );
+
+        // Unidades de medida
+        modelBuilder.Entity<MeasurementUnit>().HasData(
+            new MeasurementUnit { Id = 1, Name = "Gramo", Abbreviation = "g", IsWeight = true, WeightInGrams = 1 },
+            new MeasurementUnit { Id = 2, Name = "Kilogramo", Abbreviation = "kg", IsWeight = true, WeightInGrams = 1000 },
+            new MeasurementUnit { Id = 3, Name = "Libra", Abbreviation = "lb", IsWeight = true, WeightInGrams = 453 },
+            new MeasurementUnit { Id = 4, Name = "Mililitro", Abbreviation = "ml", IsWeight = false },
+            new MeasurementUnit { Id = 5, Name = "Litro", Abbreviation = "l", IsWeight = false },
+            new MeasurementUnit { Id = 6, Name = "Unidad", Abbreviation = "un", IsWeight = false },
+            new MeasurementUnit { Id = 7, Name = "Docena", Abbreviation = "doc", IsWeight = false },
+            new MeasurementUnit { Id = 8, Name = "Paquete", Abbreviation = "pq", IsWeight = false },
+            new MeasurementUnit { Id = 9, Name = "Caja", Abbreviation = "cj", IsWeight = false }
+        );
+
+        // Categorías
+        modelBuilder.Entity<Category>().HasData(
+            new Category { Id = 1, Name = "Frutas y Verduras", Description = "Productos frescos del campo" },
+            new Category { Id = 2, Name = "Lácteos y Huevos", Description = "Productos lácteos y huevos frescos" },
+            new Category { Id = 3, Name = "Granos y Cereales", Description = "Arroz, frijol, maíz y más" },
+            new Category { Id = 4, Name = "Carnes y Embutidos", Description = "Carnes frescas y procesadas" },
+            new Category { Id = 5, Name = "Panadería y Desayuno", Description = "Arepas, pan, café y más" },
+            new Category { Id = 6, Name = "Otros", Description = "Productos varios" }
+        );
+
+        // Productos
+        modelBuilder.Entity<Product>().HasData(
+            new Product { Id = 1, Name = "Manzana", Description = "Manzanas rojas frescas", MeasurementUnitId = 6, ImageUrl = "manzana.jpg", IsActive = true, CategoryId = 1 },
+            new Product { Id = 2, Name = "Banano", Description = "Bananos maduros de exportación", MeasurementUnitId = 6, ImageUrl = "banano.jpg", IsActive = true, CategoryId = 1 },
+            new Product { Id = 3, Name = "Queso Campesino", Description = "Queso fresco campesino 250g", MeasurementUnitId = 1, ImageUrl = "queso.jpg", IsActive = true, CategoryId = 2 },
+            new Product { Id = 4, Name = "Arepa de Maíz", Description = "Arepas de maíz blanco x6 unidades", MeasurementUnitId = 8, ImageUrl = "arepa.jpg", IsActive = true, CategoryId = 5 },
+            new Product { Id = 5, Name = "Café Molido", Description = "Café molido 100% colombiano 500g", MeasurementUnitId = 1, ImageUrl = "cafe.jpg", IsActive = true, CategoryId = 5 }
+        );
+
+        // Combos
+        modelBuilder.Entity<Combo>().HasData(
+            new Combo { Id = 1, Name = "Desayuno Campesino", Description = "Incluye arepas, queso y café", Price = 25000, ImageUrl = "desayuno.jpg", IsActive = true }
+        );
+
+        // Relación Combo-Producto
+        modelBuilder.Entity<ComboProduct>().HasData(
+            new { ComboId = 1, ProductId = 3, UnitId = 1, Quantity = 0.25m }, // Queso
+            new { ComboId = 1, ProductId = 4, UnitId = 8, Quantity = 1m },    // Arepas
+            new { ComboId = 1, ProductId = 5, UnitId = 1, Quantity = 0.5m }   // Café
+        );
+
+
         base.OnModelCreating(modelBuilder);
     }
 

@@ -52,13 +52,50 @@ namespace MarketAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id")
                         .HasName("PK_Categories");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Productos frescos del campo",
+                            Name = "Frutas y Verduras"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Productos lácteos y huevos frescos",
+                            Name = "Lácteos y Huevos"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Arroz, frijol, maíz y más",
+                            Name = "Granos y Cereales"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Carnes frescas y procesadas",
+                            Name = "Carnes y Embutidos"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Arepas, pan, café y más",
+                            Name = "Panadería y Desayuno"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Productos varios",
+                            Name = "Otros"
+                        });
                 });
 
             modelBuilder.Entity("MarketAPI.Models.Combo", b =>
@@ -92,6 +129,17 @@ namespace MarketAPI.Migrations
                         .HasName("PK_Combos");
 
                     b.ToTable("Combos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Incluye arepas, queso y café",
+                            ImageUrl = "desayuno.jpg",
+                            IsActive = true,
+                            Name = "Desayuno Campesino",
+                            Price = 25000m
+                        });
                 });
 
             modelBuilder.Entity("MarketAPI.Models.ComboProduct", b =>
@@ -119,6 +167,29 @@ namespace MarketAPI.Migrations
                     b.HasIndex("UnitId");
 
                     b.ToTable("ComboProducts");
+
+                    b.HasData(
+                        new
+                        {
+                            ComboId = 1,
+                            ProductId = 3,
+                            UnitId = 1,
+                            Quantity = 0.25m
+                        },
+                        new
+                        {
+                            ComboId = 1,
+                            ProductId = 4,
+                            UnitId = 8,
+                            Quantity = 1m
+                        },
+                        new
+                        {
+                            ComboId = 1,
+                            ProductId = 5,
+                            UnitId = 1,
+                            Quantity = 0.5m
+                        });
                 });
 
             modelBuilder.Entity("MarketAPI.Models.Event", b =>
@@ -185,6 +256,74 @@ namespace MarketAPI.Migrations
                         .HasName("PK_MeasurementUnits");
 
                     b.ToTable("MeasurementUnits");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Abbreviation = "g",
+                            IsWeight = true,
+                            Name = "Gramo",
+                            WeightInGrams = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Abbreviation = "kg",
+                            IsWeight = true,
+                            Name = "Kilogramo",
+                            WeightInGrams = 1000
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Abbreviation = "lb",
+                            IsWeight = true,
+                            Name = "Libra",
+                            WeightInGrams = 453
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Abbreviation = "ml",
+                            IsWeight = false,
+                            Name = "Mililitro"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Abbreviation = "l",
+                            IsWeight = false,
+                            Name = "Litro"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Abbreviation = "un",
+                            IsWeight = false,
+                            Name = "Unidad"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Abbreviation = "doc",
+                            IsWeight = false,
+                            Name = "Docena"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Abbreviation = "pq",
+                            IsWeight = false,
+                            Name = "Paquete"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Abbreviation = "cj",
+                            IsWeight = false,
+                            Name = "Caja"
+                        });
                 });
 
             modelBuilder.Entity("MarketAPI.Models.Order", b =>
@@ -396,6 +535,58 @@ namespace MarketAPI.Migrations
                     b.HasIndex("MeasurementUnitId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Description = "Manzanas rojas frescas",
+                            ImageUrl = "manzana.jpg",
+                            IsActive = true,
+                            MeasurementUnitId = 6,
+                            Name = "Manzana"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            Description = "Bananos maduros de exportación",
+                            ImageUrl = "banano.jpg",
+                            IsActive = true,
+                            MeasurementUnitId = 6,
+                            Name = "Banano"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 2,
+                            Description = "Queso fresco campesino 250g",
+                            ImageUrl = "queso.jpg",
+                            IsActive = true,
+                            MeasurementUnitId = 1,
+                            Name = "Queso Campesino"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 5,
+                            Description = "Arepas de maíz blanco x6 unidades",
+                            ImageUrl = "arepa.jpg",
+                            IsActive = true,
+                            MeasurementUnitId = 8,
+                            Name = "Arepa de Maíz"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 5,
+                            Description = "Café molido 100% colombiano 500g",
+                            ImageUrl = "cafe.jpg",
+                            IsActive = true,
+                            MeasurementUnitId = 1,
+                            Name = "Café Molido"
+                        });
                 });
 
             modelBuilder.Entity("MarketAPI.Models.RefreshToken", b =>
@@ -685,6 +876,23 @@ namespace MarketAPI.Migrations
                         .HasName("PK_UserRoles");
 
                     b.ToTable("UserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Customer"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Supplier"
+                        });
                 });
 
             modelBuilder.Entity("MarketAPI.Models.UserUserRole", b =>
@@ -817,13 +1025,13 @@ namespace MarketAPI.Migrations
             modelBuilder.Entity("MarketAPI.Models.Product", b =>
                 {
                     b.HasOne("MarketAPI.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MarketAPI.Models.MeasurementUnit", "MeasurementUnit")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("MeasurementUnitId");
 
                     b.Navigation("Category");
@@ -944,11 +1152,21 @@ namespace MarketAPI.Migrations
                     b.Navigation("Events");
                 });
 
+            modelBuilder.Entity("MarketAPI.Models.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("MarketAPI.Models.Combo", b =>
                 {
                     b.Navigation("ComboProducts");
 
                     b.Navigation("SupplierCombos");
+                });
+
+            modelBuilder.Entity("MarketAPI.Models.MeasurementUnit", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("MarketAPI.Models.Order", b =>

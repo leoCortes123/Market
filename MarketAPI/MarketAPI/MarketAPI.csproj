@@ -7,7 +7,7 @@
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <NoWarn>$(NoWarn);1591</NoWarn>
 	  <UserSecretsId>8df39a42-c5bb-456a-9ba4-f3e6cd114608</UserSecretsId>
-	  <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
